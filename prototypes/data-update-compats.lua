@@ -1,3 +1,5 @@
+local tech = data.raw.technology["calciner"]
+
 if mods["pelagos"] then
 	--data.raw["item"]["calciner"].default_import_location = "pelagos"
 	--table.insert(data.raw["recipe"]["calciner"].ingredients, { type = "item", name = "coconut-sealant", amount = 20 })
@@ -30,6 +32,15 @@ if mods["pelagos"] then
 			auto_recycle = false,
 		},
 	})
+	-- the coconut husk comes from coconut processing
+	local coconut_tech = data.raw.technology["coconut-processing-technology"]
+	if coconut_tech then
+		coconut_tech.effects = coconut_tech.effects or {}
+		table.insert(coconut_tech.effects, {
+			type = "unlock-recipe",
+			recipe = "calciner-coconut-husk-carbonization",
+		})
+	end
 end
 
 -- special glass recipes for compatibility with mods that add glass
@@ -82,8 +93,6 @@ if mods["Krastorio2"] then
 	}
 end
 
--- add mineral glass if glass exist
-local tech = data.raw.technology["calciner"]
 if tech and mods["space-age"] then
 	table.insert(tech.effects, {
 		type = "unlock-recipe",
